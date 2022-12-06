@@ -1,0 +1,63 @@
+# This config will cover a normal case
+# It provides simple defaults, and alerts, based on a normal use-case
+
+meta:
+  title: Bit-Bots Cluster Monitor
+  author: zix99
+  animation: 'false'
+
+# Define default alerts which can be used by multiple servers
+_shared: &shared
+  channels:
+    - type: email
+      config:
+        toAddr: <MY EMAIL>
+    - type: stdout
+  monitors:
+    - type: memory
+      alarms:
+        "Memory < 1MB" : "mem_free.mb < 1"
+        "Swap < 10MB" : "swap_free.mb < 10"
+    - type: loadavg
+      alarms:
+        "High load" : "load_15m > 1"
+    - type: gpu
+      config:
+        device: 0
+    - type: network
+      config:
+        hideEmpty: true
+
+# Define our servers
+servers:
+ "cl03":
+    driver: ssh
+    config:
+      host: cl03
+      username: 17vahl
+    <<: *shared
+ "cl04":
+    driver: ssh
+    config:
+      host: cl04
+      username: 17vahl
+    <<: *shared
+ "cl05":
+    driver: ssh
+    config:
+      host: cl05
+      username: 17vahl
+    <<: *shared
+ "cl06":
+    driver: ssh
+    config:
+      host: cl05
+      username: 17vahl
+    <<: *shared
+ "cl07":
+    driver: ssh
+    config:
+      host: cl07
+      username: 17vahl
+    <<: *shared
+
