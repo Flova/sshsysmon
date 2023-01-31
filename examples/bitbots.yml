@@ -3,7 +3,7 @@
 
 meta:
   title: Bit-Bots Cluster Monitor
-  author: zix99
+  author: 17vahl
   animation: 'false'
 
 # Define default alerts which can be used by multiple servers
@@ -27,6 +27,11 @@ _shared: &shared
     - type: network
       config:
         hideEmpty: true
+    - type: exec
+      config:
+        command: "ps -eo pcpu=,user= --sort -pcpu | head -n 4"
+        json: False 
+        name: "Top Tasks" 
 
 # Define our servers
 servers:
@@ -51,7 +56,7 @@ servers:
  "cl06":
     driver: ssh
     config:
-      host: cl05
+      host: cl06
       username: 17vahl
     <<: *shared
  "cl07":
